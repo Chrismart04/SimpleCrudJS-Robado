@@ -1,26 +1,23 @@
 import { loadUsers } from "../users-case/load-users-by-page";
 
-export class UsersStore {
-    constructor() {
-        this.state = {
-            currentPage: 0,
-            users: []
-        };
-    }
 
-    async inicioButton() {
-        const users = await loadUsers(1);
-        if (users.length === 0) return;
-        this.state.currentPage = 1;
-        this.state.users = users;
-    }
+const state = {
+  currentPage: 0,
+  users: []
 
-    async finButton() {
-        const users = await loadUsers(7);
-        if (users.length === 0) return;
-        this.state.currentPage = 7;
-        this.state.users = users;
-    }
+}
+const inicioButton = async () => {
+    const user = await loadUsers(1);
+    if (user.length === 0) return;
+    state.currentPage = 1;
+    state.users =  user
+}
+const  finButton = async () => {
+    const user = await loadUsers(6);
+    if (user.length === 0) return;
+    state.currentPage = 6;
+    state.users =  user
+}
 
     async loadNextPage() {
         if (this.state.currentPage >= 7) return;
@@ -38,24 +35,42 @@ export class UsersStore {
         this.state.users = users;
     }
 
-    onUserChanged(updatedUser) {
-        const userIndex = this.state.users.findIndex(user => user.id === updatedUser.id);
-        if (userIndex >= 0) {
-            this.state.users[userIndex] = updatedUser;
-        } else {
-            this.state.users.push(updatedUser);
+// TODO: implemetar
+
+const onUserChanged = (updatedUser) => {
+    let wasFound = false;
+    
+    state.users = state.users.map(user => {
+        if (user.id === updatedUser.id) {
+            wasFound = true;
+            return updatedUser;
         }
-    }
+        return user;
+    });
 
-    async reloadPage() {
-        await loadUsers(this.state.currentPage);
+    if (!wasFound) {
+        state.users.push(updatedUser);
     }
+}
 
-    getUsers() {
-        return [...this.state.users];
-    }
+const onUserDeleted = (id) => {
+    state.users = state.users.filter(user => user.id !== id);
+}
 
-    getCurrentPage() {
-        return this.state.currentPage;
-    }
+const reloadPage = async () => {
+    throw new Error('Not implemented')
+
+}
+
+export default {
+    loandNextPage,
+    loadPreviousPage,
+    onUserChanged,
+    onUserDeleted,  // Agregamos la nueva función
+    reloadPage,
+    inicioButton,
+    finButton,
+    getUsers: () => [...state.users],
+    getCurrentPage: () => state.currentPage,
+
 }

@@ -1,4 +1,7 @@
+import usersStore from "../../store/users-store";
+import { showModal } from "../render-modal/render-modal";
 import './render-table.css';
+
 
 let table;
 
@@ -21,10 +24,22 @@ const createTable = () => {
     return table;
 };
 
-export const renderTable = (element, users = []) => {
+const tableSelectListener = (e) => {
+   const elements = e.target.closest('.select-user');
+   if (!elements) return;
+   
+    const id = elements.getAttribute('data-id');
+     showModal(id);
+}   
+
+
+export const renderTable = (element) => {
+    const users = usersStore.getUsers();
+    
     if (!table) {
         table = createTable();
         element.append(table);
+        table.addEventListener('click', tableSelectListener );
     }
 
     let tableHTML = '';
@@ -40,10 +55,9 @@ export const renderTable = (element, users = []) => {
                 <td>${user.lastName}</td>
                 <td><span class="${statusClass}">${statusText}</span></td>
                 <td>
-                    <div class="table-actions">
-                        <a href="#/" class="action-select" data-id="${user.id}">Editar</a>
-                        <a href="#/" class="action-delete" data-id="${user.id}">Eliminar</a>
-                    </div>
+                    <a href="#/" class="select-user" data-id="${user.id}">Select</a>
+                    |
+                    <a href="#/" class="delete-user" data-id="${user.id}">Delete</a>
                 </td>
             </tr>
         `;
