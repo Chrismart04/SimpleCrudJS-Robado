@@ -3,12 +3,12 @@ import { renderButtons } from "./presentation/render-buttons/render-buttons";
 import { renderAddButton } from './presentation/render-add-button/render-add-button';
 import { renderModal } from './presentation/render-modal/render-modal';
 import { saveUser } from './users-case/save-user.js';
-import { UsersStore } from "./store/users-store";
+import UsersStore from '/src/users/store/users-store.js';
 
 export class UsersApp {
     constructor(element) {
         this.element = element;
-        this.usersStore = new UsersStore();
+        this.usersStore = UsersStore;
         this.element.usersStore = this.usersStore;
     }
 

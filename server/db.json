@@ -511,6 +511,13 @@
       "isActive": false,
       "last_name": "Kentasdasd",
       "id": "Z3cFcU-"
+    },
+    {
+      "id": "4e2d",
+      "balance": 500,
+      "first_name": "Juan",
+      "isActive": true,
+      "last_name": "Lopez"
     }
   ]
 }

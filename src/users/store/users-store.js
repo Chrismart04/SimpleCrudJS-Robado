@@ -19,23 +19,21 @@ const  finButton = async () => {
     state.users =  user
 }
 
-    async loadNextPage() {
-        if (this.state.currentPage >= 7) return;
-        const users = await loadUsers(this.state.currentPage + 1);
-        if (users.length === 0) return;
-        this.state.currentPage += 1;
-        this.state.users = users;
-    }
+const loadNextPage = async () => {
+    if (state.currentPage >= 7) return;
+    const users = await loadUsers(state.currentPage + 1);
+    if (users.length === 0) return;
+    state.currentPage += 1;
+    state.users = users;
+}
 
-    async loadPreviousPage() {
-        if (this.state.currentPage <= 1) return;
-        const users = await loadUsers(this.state.currentPage - 1);
-        if (users.length === 0) return;
-        this.state.currentPage -= 1;
-        this.state.users = users;
-    }
-
-// TODO: implemetar
+const loadPreviousPage = async () => {
+    if (state.currentPage <= 1) return;
+    const users = await loadUsers(state.currentPage - 1);
+    if (users.length === 0) return;
+    state.currentPage -= 1;
+    state.users = users;
+}
 
 const onUserChanged = (updatedUser) => {
     let wasFound = false;
@@ -63,10 +61,10 @@ const reloadPage = async () => {
 }
 
 export default {
-    loandNextPage,
+    loadNextPage,
     loadPreviousPage,
     onUserChanged,
-    onUserDeleted,  // Agregamos la nueva función
+    onUserDeleted,
     reloadPage,
     inicioButton,
     finButton,
